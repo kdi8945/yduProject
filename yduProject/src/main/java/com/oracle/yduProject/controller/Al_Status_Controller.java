@@ -13,6 +13,10 @@ public class Al_Status_Controller {
 	@Autowired
 	private Al_Status_Service ass;
 	
+	public void test() {
+		String a = "연습";
+	}
+	
 	@RequestMapping("applyClass")
 	@ResponseBody
 	public String applyClass(Al_Status al_Status) {
