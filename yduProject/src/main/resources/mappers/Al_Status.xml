@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Al_Status">
+	<select id="applyStudentCnt" parameterType="int" resultType="int">
+		SELECT COUNT(1) FROM AL_STATUS WHERE C_NUM = #{c_num} AND (A_STATUS = 2 OR A_STATUS = 3)
+	</select>
+	<select id="applyStudent" parameterType="Al_Status" resultType="Al_Status">
+		SELECT * FROM AL_STATUS WHERE C_NUM = #{c_num} AND STU_ID = #{stu_id}
+	</select>
+	<select id="applyChk" parameterType="Al_Status" resultType="Al_Status">
+		SELECT A_STATUS FROM AL_STATUS WHERE STU_ID = #{stu_id} AND C_NUM = #{c_num}
+	</select>
+	<insert id="applyInsertClass" parameterType="Al_Status">
+		INSERT INTO AL_STATUS VALUES(AL_NUM_SEQ.NEXTVAL, #{c_num}, #{stu_id}, 2)
+	</insert>
+	<update id="applyUpdateClass" parameterType="Al_Status">
+		UPDATE AL_STATUS SET A_STATUS = 2 WHERE STU_ID = #{stu_id} AND C_NUM = #{c_num}
+	</update>
+	<update id="applyCancel" parameterType="Al_Status">
+		UPDATE AL_STATUS SET A_STATUS = 1 WHERE STU_ID = #{stu_id} AND C_NUM = #{c_num}
+	</update>
+	<select id="classApplyChk" parameterType="int" resultType="int">
+		SELECT COUNT(1) FROM AL_STATUS WHERE C_NUM = #{c_num}
+	</select>
+	<delete id="classApplyDelete" parameterType="int">
+		DELETE FROM AL_STATUS WHERE C_NUM = #{c_num}
+	</delete>
+	<update id="classWaiver" parameterType="Al_Status">
+		UPDATE AL_STATUS SET A_STATUS = 3 WHERE STU_ID = #{stu_id} AND C_NUM = #{c_num}
+	</update>
+	<select id="todayApplyChk" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT A.C_NUM
+		FROM AL_STATUS A
+		JOIN PRE_C_INFO P
+			ON A.C_NUM = P.C_NUM
+		WHERE A.STU_ID = #{id} AND A.A_STATUS=2
+			AND TO_CHAR(SYSDATE, 'YYYY/MM/DD') BETWEEN TO_CHAR(P.C_S_DATE, 'YYYY/MM/DD')
+			AND TO_CHAR(P.C_E_DATE, 'YYYY/MM/DD')
+	</select>
+	<select id="aplStuList" parameterType="Pre_C_Info" resultType="Al_Status">
+		SELECT * FROM AL_STATUS WHERE C_NUM = #{c_num} AND A_STATUS = 2
+	</select>
+	<select id="myApplyDayChk" parameterType="Al_Status" resultType="java.lang.Integer">
+		SELECT P.C_NUM
+		FROM PRE_C_INFO P
+		JOIN AL_STATUS A
+		ON A.C_NUM = P.C_NUM
+		AND A.STU_ID = #{stu_id}
+		AND A.A_STATUS = 2
+		WHERE (P.C_STATUS = 2 OR P.C_STATUS = 1)
+		AND (TO_CHAR(#{c_s_date}, 'YYYY/MM/DD') BETWEEN TO_CHAR(P.C_S_DATE, 'YYYY/MM/DD')
+		AND TO_CHAR(P.C_E_DATE, 'YYYY/MM/DD')
+		OR TO_CHAR(#{c_e_date}, 'YYYY/MM/DD') BETWEEN TO_CHAR(P.C_S_DATE, 'YYYY/MM/DD')
+		AND TO_CHAR(P.C_E_DATE, 'YYYY/MM/DD'))
+	</select>
+	<select id="myApplyTimeChk" parameterType="Al_Status" resultType="int">
+		SELECT COUNT(1)
+		FROM PRE_C_INFO
+		WHERE C_NUM = #{c_num}
+		AND (#{c_e_time} BETWEEN C_E_TIME AND C_CO_TIME OR #{c_co_time} BETWEEN C_E_TIME AND C_CO_TIME)
+	</select>
+</mapper>

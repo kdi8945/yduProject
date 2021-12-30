@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="C_Stu_Info">
+	<select id="todayAttendChk" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT C_NUM
+		FROM C_STU_INFO
+		WHERE STU_ID = #{id} AND ATTENDANCE = TO_CHAR(SYSDATE, 'YYYY/MM/DD')
+	</select>
+	<insert id="createCStuInfo" parameterType="C_Stu_Info">
+		INSERT INTO C_STU_INFO(C_STU_NUM, STU_ID, C_NUM, ATTENDANCE)
+		VALUES(C_STU_NUM_SEQ.NEXTVAL, #{stu_id}, #{c_num}, TO_CHAR(SYSDATE, 'YYYY/MM/DD'))
+	</insert>
+	<select id="cStuInfo" parameterType="Al_Status" resultType="C_Stu_Info">
+		SELECT *
+		FROM C_STU_INFO
+		WHERE STU_ID = #{stu_id}
+			AND C_NUM = #{c_num}
+			AND ATTENDANCE = TO_CHAR(SYSDATE, 'YYYY/MM/DD')
+	</select>
+	<update id="enterTime" parameterType="C_Stu_Info">
+		UPDATE C_STU_INFO
+		SET E_TIME = #{e_time}
+		WHERE STU_ID = #{stu_id} AND C_NUM = #{c_num} AND ATTENDANCE = TO_CHAR(SYSDATE,'YYYY/MM/DD')
+	</update>
+	<select id="todayChk" parameterType="C_Stu_Info" resultType="int">
+		SELECT COUNT(1)
+		FROM C_STU_INFO
+		WHERE STU_ID = #{stu_id} AND C_NUM = #{c_num} AND ATTENDANCE = TO_CHAR(SYSDATE,'YYYY/MM/DD')
+	</select>
+	<select id="myEnterTime" parameterType="C_Stu_Info" resultType="java.lang.String">
+		SELECT E_TIME
+		FROM C_STU_INFO
+		WHERE STU_ID = #{stu_id} AND C_NUM = #{c_num} AND ATTENDANCE = TO_CHAR(SYSDATE,'YYYY/MM/DD')
+	</select>
+	<select id="attendStatusChk" parameterType="C_Stu_Info" resultType="int">
+		SELECT COUNT(1)
+		FROM C_STU_INFO
+		WHERE STU_ID = #{stu_id} AND C_NUM = #{c_num} AND ATTENDANCE = TO_CHAR(SYSDATE,'YYYY/MM/DD') AND ATTENDSTATUS IS NOT NULL
+	</select>
+	<update id="checkOutTime" parameterType="C_Stu_Info">
+		UPDATE C_STU_INFO
+		SET CO_TIME = #{co_time}, ATTENDSTATUS = #{attendstatus}
+		WHERE STU_ID = #{stu_id} AND C_NUM = #{c_num} AND ATTENDANCE = TO_CHAR(SYSDATE,'YYYY/MM/DD')
+	</update>
+	<select id="myCStuInfoChk" parameterType="Al_Status" resultType="int">
+		SELECT COUNT(1) FROM C_STU_INFO WHERE STU_ID = #{stu_id} AND C_NUM = #{c_num}
+	</select>
+	<delete id="myCStuInfoDelete" parameterType="Al_Status">
+		DELETE FROM C_STU_INFO WHERE STU_ID = #{stu_id} AND C_NUM = #{c_num}
+	</delete>
+	<select id="myCStuInfo" parameterType="C_Stu_Info" resultType="C_Stu_Info">
+		SELECT * FROM C_STU_INFO WHERE C_STU_NUM = #{c_stu_num}
+	</select>
+	<select id="myCSIList" parameterType="C_Stu_Info" resultType="java.lang.Integer">
+		SELECT C_STU_NUM FROM C_STU_INFO WHERE C_NUM = #{c_num} AND STU_ID = #{stu_id} ORDER BY C_STU_NUM
+	</select>
+	<select id="applyClassInfo" parameterType="C_Stu_Info" resultType="Pre_C_Info">
+		SELECT * FROM PRE_C_INFO WHERE C_NUM = #{c_num}
+	</select>
+</mapper>

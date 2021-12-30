@@ -1,0 +1,27 @@
+# http port set
+server:
+  port: 8588
+  
+# Oracle Connect
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521/xe
+    username: YDU_2
+    password: 1234
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    
+      
+  #view resolver(Templete ->JSP Use)    
+  mvc:
+    view:
+      prefix:  /WEB-INF/views/
+      suffix: .jsp
+      
+      
+# Mybatis
+mybatis:
+  # dto Location
+  type-aliases-package: com.oracle.yduProject.model   
+  # XML Location
+  config-location: classpath:configuration.xml
+  mapper-locations: classpath:mappers/*.xml

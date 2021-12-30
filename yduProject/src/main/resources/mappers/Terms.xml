@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Terms">
+
+	<!-- <select id="necessaryTermsList"	resultType="Terms">
+		select * from terms where T_NECESSARY='Y'
+	</select>
+	<select id="selectTermsList"	resultType="Terms">
+		select * from terms where T_NECESSARY='N'
+	</select> -->
+	<select id="TermsList"	resultType="Terms">
+		select * from terms
+	</select>
+</mapper>

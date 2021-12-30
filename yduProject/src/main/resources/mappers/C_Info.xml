@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="C_Info">
+	<insert id="createCInfo">
+		INSERT INTO C_INFO
+		VALUES(C_I_NUM_SEQ.NEXTVAL, #{c_num}, #{stu_id}, 0, 0, 0, ' ') 
+	</insert>
+	<select id="maxAndMinChk" parameterType="Pre_C_Info" resultType="int">
+		SELECT
+			CASE WHEN #{c_num} = MAX(C_NUM) AND #{c_num} = MIN(C_NUM) THEN 3
+			WHEN #{c_num} = MAX(C_NUM) THEN 2
+			WHEN #{c_num} = MIN(C_NUM) THEN 1
+			ELSE 0
+			END
+			FROM PRE_C_INFO
+		WHERE PRO_ID = #{pro_id} AND C_STATUS = #{c_status}
+	</select>
+	<select id="maxCnum" parameterType="Pre_C_Info" resultType="int">
+		SELECT MAX(C_NUM) FROM PRE_C_INFO WHERE PRO_ID = #{pro_id} AND C_STATUS = #{c_status}
+	</select>
+	<select id="haveClassChk" parameterType="Pre_C_Info" resultType="int">
+		SELECT COUNT(1) FROM PRE_C_INFO WHERE PRO_ID = #{pro_id} AND C_STATUS = #{c_status}
+	</select>
+	<select id="cNumList" parameterType="Pre_C_Info" resultType="java.lang.Integer">
+		SELECT C_NUM FROM PRE_C_INFO WHERE PRO_ID = #{pro_id} AND C_STATUS = #{c_status} ORDER BY C_NUM DESC
+	</select>
+	<select id="getCINum" parameterType="Pre_C_Info" resultType="C_Info">
+		SELECT C.C_I_NUM, C.C_NUM, C.STU_ID
+		FROM C_INFO C
+		JOIN MEMBERINFO M
+		ON C.STU_ID = M.ID
+		WHERE C.C_NUM = #{c_num}
+		ORDER BY M.NAME
+	</select>
+	<select id="totalClassDay" parameterType="Pre_C_Info" resultType="int">
+		SELECT (C_E_DATE - C_S_DATE + 1)
+		FROM PRE_C_INFO
+		WHERE C_NUM = #{c_num}
+	</select>
+	
+	<select id="absentCnt" parameterType="C_Info" resultType="int">
+		SELECT COUNT(1)
+		FROM C_STU_INFO
+		WHERE (ATTENDSTATUS = 'absent' OR ATTENDSTATUS IS NULL) AND C_NUM = #{c_num} AND STU_ID = #{stu_id}
+	</select>
+	<select id="lateearlyCnt" parameterType="C_Info" resultType="int">
+		SELECT COUNT(1)
+		FROM C_STU_INFO
+		WHERE ATTENDSTATUS = 'lateearly' AND C_NUM = #{c_num} AND STU_ID = #{stu_id}
+	</select>
+	<select id="lateCnt" parameterType="C_Info" resultType="int">
+		SELECT COUNT(1)
+		FROM C_STU_INFO
+		WHERE ATTENDSTATUS = 'late' AND C_NUM = #{c_num} AND STU_ID = #{stu_id}
+	</select>
+	<select id="earlyCnt" parameterType="C_Info" resultType="int">
+		SELECT COUNT(1)
+		FROM C_STU_INFO
+		WHERE ATTENDSTATUS = 'early' AND C_NUM = #{c_num} AND STU_ID = #{stu_id}
+	</select>
+	<select id="attendCnt" parameterType="C_Info" resultType="int">
+		SELECT COUNT(1)
+		FROM C_STU_INFO
+		WHERE ATTENDSTATUS = 'attend' AND C_NUM = #{c_num} AND STU_ID = #{stu_id}
+	</select>
+	<update id="inAScore" parameterType="C_Info">
+		UPDATE C_INFO SET A_SCORE = #{a_score} WHERE C_I_NUM = #{c_i_num}
+	</update>
+	<select id="getMyClassInfo" parameterType="Pre_C_Info" resultType="Pre_C_Info">
+		SELECT * FROM PRE_C_INFO WHERE C_NUM = #{c_num}
+	</select>
+	<select id="getAStatus" parameterType="C_Info" resultType="int">
+		SELECT A_STATUS FROM AL_STATUS WHERE C_NUM = #{c_num} AND STU_ID = #{stu_id}
+	</select>
+	<select id="getStudentInfo" parameterType="C_Info" resultType="C_Info">
+		SELECT c.C_I_NUM, c.C_NUM, c.STU_ID, c.M_SCORE, c.F_SCORE, M.NAME
+		FROM C_INFO C
+		JOIN MEMBERINFO M
+		ON C.STU_ID = M.ID
+		WHERE C_I_NUM = #{c_i_num}
+	</select>
+	<select id="mScoreUpdate" parameterType="C_Info">
+		UPDATE C_INFO SET M_SCORE = #{m_score} WHERE C_I_NUM = #{c_i_num}
+	</select>
+	<select id="fScoreUpdate">
+		UPDATE C_INFO SET F_SCORE = #{f_score} WHERE C_I_NUM = #{c_i_num}
+	</select>
+	<select id="myApplyClassChk" parameterType="Al_Status" resultType="Al_Status">
+		SELECT A.C_NUM, A.STU_ID
+		FROM AL_STATUS A
+		JOIN PRE_C_INFO P
+		ON A.C_NUM = P.C_NUM
+		WHERE A.STU_ID = #{stu_id} AND A_STATUS = #{a_status} AND (P.C_STATUS = 2 OR P.C_STATUS = 3)
+		ORDER BY C_NUM DESC
+	</select>
+	<select id="myTotalClassDay" parameterType="Al_Status" resultType="int">
+		SELECT (C_E_DATE - C_S_DATE + 1) FROM PRE_C_INFO WHERE C_NUM = #{c_num}
+	</select>
+	<select id="myAbsentCnt" parameterType="Al_Status" resultType="int">
+		SELECT COUNT(1)
+		FROM C_STU_INFO
+		WHERE (ATTENDSTATUS = 'absent' OR ATTENDSTATUS IS NULL) AND C_NUM = #{c_num} AND STU_ID = #{stu_id}
+	</select>
+	<select id="myLateearlyCnt" parameterType="Al_Status" resultType="int">
+		SELECT COUNT(1)
+		FROM C_STU_INFO
+		WHERE ATTENDSTATUS = 'lateearly' AND C_NUM = #{c_num} AND STU_ID = #{stu_id}
+	</select>
+	<select id="myLateCnt" parameterType="Al_Status" resultType="int">
+		SELECT COUNT(1)
+		FROM C_STU_INFO
+		WHERE ATTENDSTATUS = 'late' AND C_NUM = #{c_num} AND STU_ID = #{stu_id}
+	</select>
+	<select id="myEarlyCnt" parameterType="Al_Status" resultType="int">
+		SELECT COUNT(1)
+		FROM C_STU_INFO
+		WHERE ATTENDSTATUS = 'early' AND C_NUM = #{c_num} AND STU_ID = #{stu_id}
+	</select>
+	<select id="myAttendCnt" parameterType="Al_Status" resultType="int">
+		SELECT COUNT(1)
+		FROM C_STU_INFO
+		WHERE ATTENDSTATUS = 'attend' AND C_NUM = #{c_num} AND STU_ID = #{stu_id}
+	</select>
+	<select id="myApplyClassInfo" parameterType="Al_Status" resultType="C_Info">
+		SELECT C.*, P.C_NAME, M.NAME, A.A_STATUS
+		FROM C_INFO C
+		JOIN PRE_C_INFO P
+		ON C.C_NUM = P.C_NUM
+		JOIN MEMBERINFO M
+		ON P.PRO_ID = M.ID
+		JOIN AL_STATUS A
+		ON P.C_NUM = A.C_NUM
+		AND A.C_NUM = #{c_num} AND A.STU_ID = #{stu_id}
+		WHERE C.STU_ID = #{stu_id} AND C.C_NUM = #{c_num}
+	</select>
+	<update id="updateMyAScore" parameterType="C_Info">
+		UPDATE C_INFO SET A_SCORE = #{a_score} WHERE C_NUM = #{c_num} AND STU_ID = #{stu_id}
+	</update>
+	<select id="getCStatus" parameterType="C_Info" resultType="int">
+		SELECT C_STATUS FROM PRE_C_INFO WHERE C_NUM = #{c_num}
+	</select>
+	<select id="myClassInfoList" parameterType="Pre_C_Info" resultType="Pre_C_Info">
+		SELECT C_NUM, C_NAME FROM PRE_C_INFO WHERE PRO_ID = #{pro_id} AND C_STATUS = #{c_status} ORDER BY C_NUM DESC
+	</select>
+	<select id="rateChk" parameterType="Al_Status" resultType="int">
+		SELECT COUNT(1) FROM PROFESSOR_RATE WHERE C_NUM = #{c_num} AND STU_ID = #{stu_id}
+	</select>
+</mapper>

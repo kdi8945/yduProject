@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases> <!-- type 의 별명을 지어주는거임. 그럼 이제 타입을 Emp 로 줄여서 쓸 수 있다.  -->
+		<typeAlias alias="Al_Status"   	type="com.oracle.yduProject.model.Al_Status"/>
+		<typeAlias alias="B_Comment"   	type="com.oracle.yduProject.model.B_Comment"/>
+		<typeAlias alias="B_Rao"   		type="com.oracle.yduProject.model.B_Rao"/>
+		<typeAlias alias="Board"   		type="com.oracle.yduProject.model.Board"/>
+		<typeAlias alias="C_Info" 	  	type="com.oracle.yduProject.model.C_Info"/>
+		<typeAlias alias="C_Rao" 	  	type="com.oracle.yduProject.model.C_Rao"/>
+		<typeAlias alias="C_Stu_Info" 	type="com.oracle.yduProject.model.C_Stu_Info"/>
+		<typeAlias alias="CodeNum" 	  	type="com.oracle.yduProject.model.CodeNum"/>
+		<typeAlias alias="MemberInfo" 	type="com.oracle.yduProject.model.MemberInfo"/>
+		<typeAlias alias="Pre_C_Info" 	type="com.oracle.yduProject.model.Pre_C_Info"/>
+		<typeAlias alias="Professor_Rate" 	type="com.oracle.yduProject.model.Professor_Rate"/>
+		<typeAlias alias="T_C_History" 	type="com.oracle.yduProject.model.T_C_History"/>
+		<typeAlias alias="Terms" 		type="com.oracle.yduProject.model.Terms"/>
+	</typeAliases>
+</configuration>

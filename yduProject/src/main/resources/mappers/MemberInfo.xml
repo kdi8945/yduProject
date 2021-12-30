@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MemberInfo">
+	<select id="confirmId"	parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT ID FROM MEMBERINFO WHERE ID = #{id}
+	</select>
+	<select id="idChk" parameterType="MemberInfo" resultType="int">
+		SELECT COUNT(1) FROM MEMBERINFO WHERE ID = #{id}
+	</select>
+	<select id="idPwChk" parameterType="MemberInfo" resultType="int">
+		SELECT COUNT(1) FROM MEMBERINFO WHERE ID = #{id} AND PW = #{pw}
+	</select>
+	<select id="mem_statusChk" parameterType="MemberInfo" resultType="int">
+		SELECT MEM_STATUS FROM MEMBERINFO WHERE ID = #{id}
+	</select>
+	<select id="bringMemberInfo" parameterType="MemberInfo" resultType="MemberInfo">
+		SELECT * FROM MEMBERINFO WHERE ID = #{id}
+	</select>
+	<insert id="joinMember" parameterType="MemberInfo">
+		INSERT INTO MEMBERINFO(ID, PW, NAME, EMAIL, YDUCODE, AUTORITY, MEM_STATUS)
+		VALUES(#{id}, #{pw}, #{name}, #{email}, #{yducode}, #{autority}, 1)
+		<!-- 나중에 상태 2로 변경하고 관리자페이지에서 승인할수있게 수정해야함 -->
+	</insert>
+	<insert id="joinTerms" parameterType="MemberInfo">
+		INSERT INTO T_C_HISTORY VALUES(#{id}, #{t_numArrs}, #{t_necessaryArrs})	
+	</insert>
+	<select id="memberInfoTot" resultType="int">
+		SELECT COUNT(1) FROM MEMBERINFO
+	</select>
+	<select id="memberInfoList" parameterType="MemberInfo" resultType="MemberInfo">
+		SELECT *
+		FROM(SELECT ROWNUM RN , a.*
+			 FROM (SELECT *
+				   FROM MEMBERINFO) a)
+		WHERE
+		RN BETWEEN #{start} AND #{end}
+	</select>
+</mapper>

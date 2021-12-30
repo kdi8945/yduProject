@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Comment">
+
+
+	<select id="commList" parameterType="B_Comment" resultType="B_Comment">
+		SELECT B.*, M.NAME
+		FROM B_COMMENT b
+		JOIN MEMBERINFO M
+		ON B.ID = M.ID
+		WHERE B_NUM = #{b_num} AND B_TYPE = #{b_type}
+		ORDER BY C_NUM DESC
+	</select>
+
+	<insert id="commWrite" parameterType="B_Comment">
+		
+		INSERT INTO b_comment(c_num, id,b_num,b_type,c_content,c_w_date) 
+		VALUES(c_num1_seq.nextval,#{id},#{b_num},#{b_type},#{c_content},sysdate )
+	
+	</insert>
+
+	<delete id="commDelete" parameterType="int">
+		delete from b_comment where c_num=#{c_num}
+	</delete>
+	
+	<update id="commUpdate" parameterType="B_Comment">
+		UPDATE b_comment 
+		SET
+		c_content=#{c_content}, c_w_date = sysdate
+		WHERE
+		c_num=#{c_num}
+	</update>
+	
+	
+	<select id="classCommentList" parameterType="B_Comment" resultType="B_Comment">
+		SELECT B.*, M.NAME
+		FROM B_COMMENT B
+		JOIN MEMBERINFO M
+		ON B.ID = M.ID
+		WHERE B_NUM = #{b_num} AND B_TYPE = #{b_type}
+		ORDER BY C_NUM DESC
+	</select>
+	
+	
+	<insert id="classCommWrite" parameterType="B_Comment">
+		INSERT INTO b_comment(c_num, id, b_num,b_type,c_content,c_w_date)
+		VALUES (c_num2_seq.nextval, #{id}, #{b_num}, #{b_type}, #{c_content}, sysdate)
+	
+	</insert>
+	
+	<delete id="classCommDelete" parameterType="B_Comment">
+		DELETE FROM b_comment where c_num=#{c_num}
+	</delete>
+	
+	<update id="classCommUpdate" parameterType="B_Comment">
+		UPDATE b_comment
+		SET
+		c_content=#{c_content}, c_w_date = sysdate
+		WHERE
+		c_num=#{c_num}
+	</update>
+</mapper>

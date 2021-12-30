@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Professor_Rate">
+	<select id="closedClassChk" resultType="java.lang.Integer">
+		SELECT C_NUM FROM PRE_C_INFO WHERE C_STATUS = 3 ORDER BY C_NUM DESC
+	</select>
+	<select id="professorRate" parameterType="java.lang.Integer" resultType="Pre_C_Info">
+		SELECT M.NAME, P.C_NUM, P.C_NAME, P.C_E_DATE
+		FROM PRE_C_INFO P
+		JOIN MEMBERINFO M
+		ON P.PRO_ID = M.ID
+		WHERE C_NUM = #{c_num}
+	</select>
+	<select id="getProfRate" parameterType="java.lang.Integer" resultType="double">
+		SELECT ROUND(AVG(PROF_RATES),2) FROM PROFESSOR_RATE WHERE C_NUM = #{c_num}
+	</select>
+	<select id="getProfRateInfo" parameterType="Pre_C_Info" resultType="Pre_C_Info">
+		SELECT P.*, M.NAME FROM PRE_C_INFO P JOIN MEMBERINFO M	ON P.PRO_ID = M.ID WHERE C_NUM = #{c_num}
+	</select>
+	<select id="profRateContList" parameterType="Pre_C_Info" resultType="Professor_Rate">
+		SELECT * FROM PROFESSOR_RATE WHERE C_NUM = #{c_num} ORDER BY PROF_RATE_NUM DESC
+	</select>
+	<select id="professorRateForm" parameterType="Pre_C_Info" resultType="Pre_C_Info">
+		SELECT * FROM PRE_C_INFO WHERE C_NUM = #{c_num}
+	</select>
+	<insert id="professorRateInsert" parameterType="Professor_Rate">
+		INSERT INTO PROFESSOR_RATE
+		VALUES(PROF_RATE_NUM_SEQ.NEXTVAL, #{c_num}, #{stu_id}, #{prof_rates}, #{rate_content})
+	</insert>
+	<select id="profRateUpdateForm" parameterType="Al_Status" resultType="Professor_Rate">
+		SELECT PR.*, PC.C_NAME, PC.C_OVERVIEW, PC.C_S_DATE, PC.C_E_DATE
+		FROM PROFESSOR_RATE PR
+		JOIN PRE_C_INFO PC
+		ON PR.C_NUM = PC.C_NUM AND PR.C_NUM = #{c_num}
+		WHERE PR.STU_ID = #{stu_id}
+	</select>
+	<update id="rateUpdate" parameterType="Professor_rate">
+		UPDATE PROFESSOR_RATE
+		SET PROF_RATES = #{prof_rates}, RATE_CONTENT = #{rate_content}
+		WHERE C_NUM = #{c_num} AND STU_ID = #{stu_id}
+	</update>
+	<select id="searchChk" parameterType="Pre_C_Info" resultType="java.lang.Integer">
+		SELECT P.C_NUM
+		FROM PRE_C_INFO P
+		JOIN MEMBERINFO M
+		ON P.PRO_ID = M.ID
+		WHERE P.C_STATUS = 3
+			AND (M.NAME LIKE '%'||#{searchContent}||'%'
+			OR C_NAME LIKE '%'||#{searchContent}||'%')
+	</select>
+	<select id="searchResult" parameterType="Pre_C_Info" resultType="Pre_C_Info">
+		SELECT P.C_NUM, P.C_NAME, M.NAME, P.C_E_DATE
+		FROM PRE_C_INFO P
+		JOIN MEMBERINFO M
+		ON P.PRO_ID = M.ID
+		WHERE P.C_STATUS = 3 AND P.C_NUM = #{c_num}
+			AND (M.NAME LIKE '%'||#{searchContent}||'%'
+			OR C_NAME LIKE '%'||#{searchContent}||'%')
+	</select>
+	<delete id="professorRateDelete" parameterType="Professor_Rate">
+		DELETE FROM PROFESSOR_RATE WHERE C_NUM = #{c_num} AND STU_ID = #{stu_id}
+	</delete>
+</mapper>

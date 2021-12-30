@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Pre_C_Info">
+	<insert id="createClass" parameterType="Pre_C_Info">
+		INSERT INTO PRE_C_INFO
+		VALUES
+			(C_NUM_SEQ.NEXTVAL, #{pro_id}, #{c_name}, #{c_overview}, TO_CHAR(#{c_re_date},'YYYY/MM/DD'),
+			TO_CHAR(#{c_s_date},'YYYY/MM/DD'), TO_CHAR(#{c_e_date},'YYYY/MM/DD'), #{c_e_time}, #{c_co_time}, #{s_closed}, 1)
+	</insert>
+	<select id="classList" parameterType="Pre_C_Info" resultType="Pre_C_Info">
+		SELECT *
+		FROM(SELECT ROWNUM RN , a.*
+			 FROM (SELECT P.*, M.NAME
+				   FROM PRE_C_INFO P
+				   JOIN MEMBERINFO M
+				   ON P.PRO_ID = M.ID
+				   ORDER BY C_NUM DESC) a) 
+		WHERE
+		RN BETWEEN #{start} AND #{end}
+	</select>
+	<select id="classTot" resultType="int">
+		SELECT COUNT(1) FROM PRE_C_INFO
+	</select>
+	<select id="classContent" parameterType="int" resultType="Pre_C_Info">
+		SELECT P.*, M.NAME FROM PRE_C_INFO P JOIN MEMBERINFO M ON P.PRO_ID = M.ID WHERE C_NUM = #{c_num}
+	</select>
+	<update id="classFixed" parameterType="Pre_C_Info">
+		UPDATE PRE_C_INFO SET C_STATUS = 2 WHERE C_NUM = #{c_num}
+	</update>
+	<update id="classClosed" parameterType="Pre_C_Info">
+		UPDATE PRE_C_INFO SET C_STATUS = 4 WHERE C_NUM = #{c_num}
+	</update>
+	<update id="classUpdate" parameterType="Pre_C_Info">
+		UPDATE PRE_C_INFO
+		SET C_NAME = #{c_name}, C_OVERVIEW = #{c_overview}, C_RE_DATE = TO_CHAR(#{c_re_date},'YYYY/MM/DD'),
+			C_S_DATE = TO_CHAR(#{c_s_date},'YYYY/MM/DD'), C_E_DATE = TO_CHAR(#{c_e_date},'YYYY/MM/DD'), C_E_TIME = #{c_e_time},
+			C_CO_TIME = #{c_co_time}, S_CLOSED = #{s_closed}
+		WHERE C_NUM = #{c_num}
+	</update>
+	<delete id="classDelete" parameterType="int">
+		DELETE FROM PRE_C_INFO WHERE C_NUM = #{c_num}
+	</delete>
+	<update id="classFinish" parameterType="Pre_C_Info">
+		UPDATE PRE_C_INFO SET C_STATUS = 3 WHERE C_NUM = #{c_num}
+	</update>
+	<select id="myLecList" parameterType="Pre_C_Info" resultType="java.lang.Integer">
+		SELECT C_NUM
+		FROM PRE_C_INFO
+		WHERE (PRO_ID = #{pro_id} AND (C_STATUS = 2 OR C_STATUS = 1)) AND
+		((TO_CHAR(#{c_s_date}, 'YYYY/MM/DD') BETWEEN TO_CHAR(C_S_DATE, 'YYYY/MM/DD') AND TO_CHAR(C_E_DATE, 'YYYY/MM/DD')) OR
+		(TO_CHAR(#{c_e_date}, 'YYYY/MM/DD') BETWEEN TO_CHAR(C_S_DATE, 'YYYY/MM/DD') AND TO_CHAR(C_E_DATE, 'YYYY/MM/DD')))
+	</select>
+	<select id="myLecTimeList" parameterType="Pre_C_Info" resultType="int">
+		SELECT COUNT(1)
+		FROM PRE_C_INFO
+		WHERE C_NUM = #{c_num} AND 
+			((#{c_e_time} BETWEEN C_E_TIME AND C_CO_TIME) OR (#{c_co_time} BETWEEN C_E_TIME AND C_CO_TIME))
+	</select>
+	<select id="selectClassList" parameterType="Pre_C_Info" resultType="Pre_C_Info">
+		SELECT P.*, M.NAME
+		FROM PRE_C_INFO P
+		JOIN MEMBERINFO M
+		ON P.PRO_ID = M.ID
+		WHERE C_STATUS = #{c_status} ORDER BY C_NUM DESC
+	</select>
+	<select id="myClassTime" parameterType="C_Stu_Info" resultType="Pre_C_Info">
+		SELECT C_E_TIME, C_CO_TIME
+		FROM PRE_C_INFO
+		WHERE C_NUM = #{c_num}
+	</select>
+	<!-- <select id="myClassNumList" parameterType="Pre_C_Info" resultType="java.lang.Integer">
+		SELECT C_NUM FROM PRE_C_INFO WHERE PRO_ID = #{pro_id} AND C_STATUS = 2 ORDER BY C_NUM DESC
+	</select> -->
+	<select id="lastNum" parameterType="Pre_C_Info" resultType="int">
+		SELECT MAX(C_NUM) FROM PRE_C_INFO WHERE PRO_ID =#{pro_id} AND C_STATUS = 2 
+	</select>
+	<select id="classClosedChk" parameterType="Al_Status" resultType="int">
+		SELECT COUNT(1) FROM PRE_C_INFO WHERE C_NUM = #{c_num} AND C_STATUS = 3
+	</select>
+	<select id="myRateChk" parameterType="Al_Status" resultType="int">
+		SELECT COUNT(1) FROM PROFESSOR_RATE WHERE STU_ID = #{stu_id} AND C_NUM = #{c_num}
+	</select>
+	<select id="cStuInfoChk" parameterType="int" resultType="int">
+		SELECT COUNT(1) FROM C_STU_INFO WHERE C_NUM = #{c_num}
+	</select>
+	<delete id="cStuInfoDelete" parameterType="int">
+		DELETE FROM C_STU_INFO WHERE C_NUM = #{c_num}
+	</delete>
+	<select id="myCreateClassChk" parameterType="Pre_C_Info" resultType="int">
+		SELECT COUNT(1) FROM PRE_C_INFO WHERE C_STATUS = #{c_status} AND PRO_ID = #{pro_id} ORDER BY C_NUM DESC
+	</select>
+	<select id="myCreateClassList" parameterType="Pre_C_Info" resultType="Pre_C_Info">
+		SELECT *
+		FROM(SELECT ROWNUM RN , a.*
+			 FROM(SELECT P.*, M.NAME
+				  FROM PRE_C_INFO P
+				  JOIN MEMBERINFO M
+				  ON P.PRO_ID = M.ID
+				  WHERE PRO_ID = #{pro_id} AND C_STATUS = #{c_status}
+				  ORDER BY C_NUM DESC) a) 
+		WHERE
+		RN BETWEEN #{start} AND #{end}
+	</select>
+	<select id="myClassTot" parameterType="Pre_C_Info" resultType="int">
+		SELECT COUNT(1) FROM PRE_C_INFO WHERE PRO_ID = #{pro_id} AND C_STATUS = 1
+	</select>
+	<select id="searchClassChk" parameterType="Pre_C_Info" resultType="java.lang.Integer">
+		SELECT P.C_NUM
+		FROM PRE_C_INFO P
+		JOIN MEMBERINFO M
+		ON P.PRO_ID = M.ID
+		WHERE (M.NAME LIKE '%'||#{searchContent}||'%'
+			   OR P.C_NAME LIKE '%'||#{searchContent}||'%')
+		ORDER BY P.C_NUM DESC
+	</select>
+	<select id="searchClassResult" parameterType="Pre_C_Info" resultType="Pre_C_Info">
+		SELECT P.*, M.NAME
+		FROM PRE_C_INFO P
+		JOIN MEMBERINFO M
+		ON P.PRO_ID = M.ID
+		WHERE P.C_NUM = #{c_num}
+			AND (M.NAME LIKE '%'||#{searchContent}||'%'
+			OR P.C_NAME LIKE '%'||#{searchContent}||'%')
+	</select>
+	<select id="searchMyClassChk" parameterType="Pre_C_Info" resultType="java.lang.Integer">
+		SELECT C_NUM
+		FROM PRE_C_INFO P
+		JOIN MEMBERINFO M
+		ON P.PRO_ID = M.ID
+		WHERE PRO_ID = #{pro_id}
+		AND C_STATUS = #{c_status}
+		AND (M.NAME LIKE '%'||#{searchContent}||'%'
+			 OR P.C_NAME LIKE '%'||#{searchContent}||'%')
+		ORDER BY P.C_NUM DESC
+	</select>
+	<select id="searchMyClassResult" parameterType="Pre_C_Info" resultType="Pre_C_Info">
+		SELECT P.*, M.NAME
+		FROM PRE_C_INFO P
+		JOIN MEMBERINFO M
+		ON P.PRO_ID = M.ID
+		WHERE P.C_NUM = #{c_num}
+		AND P.PRO_ID = #{pro_id}
+		AND C_STATUS = #{c_status}
+		AND (M.NAME LIKE '%'||#{searchContent}||'%'
+			 OR P.C_NAME LIKE '%'||#{searchContent}||'%')
+	</select>
+</mapper>
