@@ -26,29 +26,38 @@
 ## 📖프로젝트 제공기능
 #### 각 이미지와 설명을 한번에 보시려면 <u>YDUProject.pdf</u>를 실행해주세요.
 ### 1. 로그인
->- 이미지2
+<img src="/images/02.로그인.jpg" width="400" height="250"><img>
 ### 2. 회원가입
->- 이미지3
+<img src="/images/03.회원가입.jpg" width="400" height="250"><img>
 ### 3. 전체 및 수업공지사항
->- 이미지4-1, 4-2
->- 이미지4-3
+<img src="/images/04-1공지사항목록.jpg" width="400" height="250">　<img src="/images/04-2공지사항내용.jpg" width="400" height="250">
+
+<img src="/images/04-3공지사항작성.jpg" width="400" height="250"><img>
 ### 4. 수업관련
->- 이미지5-1, 5-2
->- 이미지5-3, 5-4
->- 이미지5-5, 5-6
->- 이미지5-7
+<img src="/images/05-1수업목록조회.jpg" width="400" height="250"><img>　<img src="/images/05-2수업목록검색.jpg" width="400" height="250"><img>
+
+<img src="/images/05-3수업개설.jpg" width="400" height="250"><img>　<img src="/images/05-4수업상세조회.jpg" width="400" height="250"><img>
+
+<img src="/images/05-5수업상태별조회.jpg" width="400" height="250"><img>　<img src="/images/05-6My수업목록(개설,취소).jpg" width="400" height="250"><img>
+
+<img src="/images/05-7My수업목록(확정,종료).jpg" width="400" height="250"><img>
 ### 5. 수강신청 및 출결체크 관련
->- 이미지6-1, 6-2
->- 이미지6-3, 6-4
->- 이미지6-5
+<img src="/images/06-1수강신청(수업개설).jpg" width="400" height="250"><img>　<img src="/images/06-2출결체크 및 수강취소.jpg" width="400" height="250"><img>
+
+<img src="/images/06-3수강상태별조회.jpg" width="400" height="250"><img>　<img src="/images/06-4My수강과목(수업개설).jpg" width="400" height="250"><img>
+
+<img src="/images/06-5My수강과목(수업참여,수강포기).jpg" width="400" height="250"><img>
 ### 6. 대나무숲
->- 이미지7-1, 7-2
->- 이미지7-3
+<img src="/images/07-1대나무숲.jpg" width="400" height="250"><img>　<img src="/images/07-2대나무숲작성및수정.jpg" width="400" height="250"><img>
+
+<img src="/images/07-3My대나무숲.jpg" width="400" height="250"><img>
 ### 7. 교수평가 관련
->- 이미지8-1, 8-2
->- 이미지8-3
+<img src="/images/08-1교수평가목록.jpg" width="400" height="250"><img>　<img src="/images/08-2교수평가상세조회.jpg" width="400" height="250"><img>
+
+<img src="/images/08-3교수평가작성.jpg" width="400" height="250"><img>
 ### 8. 관리자페이지
->- 이미지9-1, 9-2
->- 이미지9-3
+<img src="/images/09-1관리자페이지목록.jpg" width="400" height="250"><img>　<img src="/images/09-2관리자페이지학생.jpg" width="400" height="250"><img>
+
+<img src="/images/09-3관리자페이지교수.jpg" width="400" height="250"><img>　
 ### 9. 회원탈퇴
->- 이미지10-1, 10-2
+<img src="/images/10-1회원탈퇴확인.jpg" width="400" height="250"><img>　<img src="/images/10-2회원탈퇴메세지.jpg" width="400" height="250"><img>
