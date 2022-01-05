@@ -146,4 +146,42 @@
 		AND (M.NAME LIKE '%'||#{searchContent}||'%'
 			 OR P.C_NAME LIKE '%'||#{searchContent}||'%')
 	</select>
+	<update id="updateCstatus" parameterType="Pre_C_Info">
+		UPDATE PRE_C_INFO SET C_STATUS = 2 WHERE C_NUM = #{c_num}
+	</update>
+	<select id="myApplyTot" parameterType="Pre_C_Info" resultType="int">
+		SELECT COUNT(1)
+		FROM PRE_C_INFO P
+		JOIN AL_STATUS A
+		ON P.C_NUM = A.C_NUM
+		AND A.STU_ID = #{stu_id}
+		AND A.A_STATUS = 2
+		WHERE P.C_STATUS = 1
+	</select>
+	<select id="myApplyList" parameterType="Pre_C_Info" resultType="Pre_C_Info">
+		SELECT P.*, M.NAME
+		FROM PRE_C_INFO P
+		JOIN AL_STATUS A
+		ON P.C_NUM = A.C_NUM
+		AND A.STU_ID = #{stu_id}
+		AND A.A_STATUS = 2
+		JOIN MEMBERINFO M
+		ON P.PRO_ID = M.ID
+		WHERE P.C_STATUS = 1
+		ORDER BY P.C_NUM DESC
+	</select>
+	<select id="searchMyApplyClass" parameterType="Pre_C_Info" resultType="Pre_C_Info">
+		SELECT P.*, M.NAME
+		FROM PRE_C_INFO P
+		JOIN MEMBERINFO M
+		ON P.PRO_ID = M.ID
+		AND P.C_STATUS = 1
+		JOIN AL_STATUS A
+		ON P.C_NUM = A.C_NUM
+		AND A.STU_ID = #{stu_id}
+		AND A.A_STATUS = 2
+		WHERE (M.NAME LIKE '%'||#{searchContent}||'%'
+			   OR P.C_NAME LIKE '%'||#{searchContent}||'%')
+		ORDER BY P.C_NUM DESC
+	</select>
 </mapper>

@@ -120,7 +120,7 @@
 													</c:if>
 												</td>
 												<td style="text-align: center;">
-													<c:if test="${myApplyClassList.c_status == 3}">
+													<c:if test="${myApplyClassList.c_status == 3 && myApplyClassList.a_status == 2}">
 														<c:if test="${myApplyClassList.rateChk == 0 }">
 															<a href="professorRateForm?c_num=${myApplyClassList.c_num }">[평가하기]</a>
 														</c:if>

@@ -69,6 +69,13 @@
               <span>로그아웃</span>
             </a>
           </li>
+          <!-- 회원탈퇴 -->
+          <li class="logout">
+             <a href="widrawChk">
+              <i class="fa fa-times"></i>
+              <span>회원탈퇴</span>
+            </a>
+          </li>
         </ul>
         <!-- sidebar menu end-->
       </div>

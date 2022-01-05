@@ -61,4 +61,7 @@
 		WHERE C_NUM = #{c_num}
 		AND (#{c_e_time} BETWEEN C_E_TIME AND C_CO_TIME OR #{c_co_time} BETWEEN C_E_TIME AND C_CO_TIME)
 	</select>
+	<update id="updateAstatus" parameterType="Al_Status">
+		UPDATE AL_STATUS SET A_STATUS = 2 WHERE STU_ID = #{stu_id} AND C_NUM = #{c_num}
+	</update>
 </mapper>

@@ -50,4 +50,9 @@ public class Al_Status_ServiceImpl implements Al_Status_Service {
 		}
 		return str;
 	}
+
+	@Override
+	public Al_Status updateAstatus(Al_Status al_Status) {
+		return asd.updateAstatus(al_Status);
+	}
 }

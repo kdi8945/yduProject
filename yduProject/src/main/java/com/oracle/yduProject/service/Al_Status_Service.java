@@ -10,4 +10,6 @@ public interface Al_Status_Service {
 
 	String classWaiver(Al_Status al_Status);
 
+	Al_Status updateAstatus(Al_Status al_Status);
+
 }

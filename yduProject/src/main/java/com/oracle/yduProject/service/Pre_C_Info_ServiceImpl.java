@@ -157,4 +157,24 @@ public class Pre_C_Info_ServiceImpl implements Pre_C_Info_Service {
 	public List<Pre_C_Info> searchMyClass(Pre_C_Info pre_C_Info) {
 		return pcid.searchMyClass(pre_C_Info);
 	}
+
+	@Override
+	public Pre_C_Info updateCstatus(Pre_C_Info pre_C_Info) {
+		return pcid.updateCstatus(pre_C_Info);
+	}
+
+	@Override
+	public int myApplyTot(Pre_C_Info pre_C_Info) {
+		return pcid.myApplyTot(pre_C_Info);
+	}
+
+	@Override
+	public List<Pre_C_Info> myApplyList(Pre_C_Info pre_C_Info) {
+		return pcid.myApplyList(pre_C_Info);
+	}
+
+	@Override
+	public List<Pre_C_Info> searchMyApplyClass(Pre_C_Info pre_C_Info) {
+		return pcid.searchMyApplyClass(pre_C_Info);
+	}
 }

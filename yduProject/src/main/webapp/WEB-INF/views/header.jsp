@@ -19,7 +19,7 @@
         *********************************************************************************************************************************************************** -->
     <header class="header black-bg">
 	   	<div>
-			<a href="#" class="logo"><b>YD<span>U</span></b></a>
+			<a href="notiList?b_type=1" class="logo"><b>YD<span>U</span></b></a>
 		</div>
     </header>
   </section>

@@ -94,4 +94,21 @@ public class Al_Status_DaoImpl implements Al_Status_Dao {
 		}
 		return classWaiver;
 	}
+
+	@Override
+	public Al_Status updateAstatus(Al_Status al_Status) {
+		Al_Status updateAstatus = new Al_Status();
+		try {
+			int updateAstatusChk = session.update("updateAstatus", al_Status);
+			if(updateAstatusChk > 0) {
+				updateAstatus.setResultMsg(al_Status.getStu_id()+"님의 수강상태가 정상적으로 변경되었습니다.");
+			} else {
+				updateAstatus.setResultCode(1);
+				updateAstatus.setResultMsg("데이터 처리에 오류가 발생하였습니다.");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return updateAstatus;
+	}
 }

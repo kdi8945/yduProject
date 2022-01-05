@@ -13,10 +13,6 @@ public class Al_Status_Controller {
 	@Autowired
 	private Al_Status_Service ass;
 	
-	public void test() {
-		String a = "연습";
-	}
-	
 	@RequestMapping("applyClass")
 	@ResponseBody
 	public String applyClass(Al_Status al_Status) {
@@ -39,5 +35,12 @@ public class Al_Status_Controller {
 		String str = ass.classWaiver(al_Status);
 		return str;
 	}
-
+	
+	@RequestMapping("updateAstatus")
+	@ResponseBody
+	public Al_Status updateAstatus(Al_Status al_Status) {
+		Al_Status updateAstatus = ass.updateAstatus(al_Status);
+		
+		return updateAstatus;
+	}
 }

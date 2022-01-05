@@ -47,4 +47,12 @@ public interface Pre_C_Info_Dao {
 
 	List<Pre_C_Info> searchMyClass(Pre_C_Info pre_C_Info);
 
+	Pre_C_Info updateCstatus(Pre_C_Info pre_C_Info);
+
+	int myApplyTot(Pre_C_Info pre_C_Info);
+
+	List<Pre_C_Info> myApplyList(Pre_C_Info pre_C_Info);
+
+	List<Pre_C_Info> searchMyApplyClass(Pre_C_Info pre_C_Info);
+
 }

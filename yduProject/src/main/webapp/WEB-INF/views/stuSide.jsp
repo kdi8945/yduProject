@@ -42,6 +42,7 @@
             </a>
             <ul class="sub">
               <li><a href="classList"><i class="fa fa-caret-right"></i>수업 목록 조회</a></li>
+              <li><a href="myApplyList?stu_id=${sessionScope.sessionId}"><i class="fa fa-caret-right"></i>My 수강과목(수업개설)</a></li>
               <li><a href="stuCInfo?stu_id=${sessionScope.sessionId}&a_status=2"><i class="fa fa-caret-right"></i>My 수강과목(참여중)</a></li>
               <li><a href="stuCInfo?stu_id=${sessionScope.sessionId}&a_status=3"><i class="fa fa-caret-right"></i>My 수강과목(수강포기)</a></li>
             </ul>
@@ -70,6 +71,12 @@
              <a href="#" onclick="logougChk()">
               <i class="fa fa-sign-out"></i>
               <span>로그아웃</span>
+            </a>
+          </li>
+          <li class="logout">
+             <a href="widrawChk">
+              <i class="fa fa-times"></i>
+              <span>회원탈퇴</span>
             </a>
           </li>
         </ul>

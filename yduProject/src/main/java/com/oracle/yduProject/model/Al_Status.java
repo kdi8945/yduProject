@@ -20,12 +20,15 @@ public class Al_Status {
 	private Date c_e_date;
 	private String c_e_time;
 	private String c_co_time;
+	
+	private int resultCode;
+	private String resultMsg;
+	
 	@Override
 	public String toString() {
 		return "Al_Status [al_num=" + al_num + ", c_num=" + c_num + ", stu_id=" + stu_id + ", a_status=" + a_status
 				+ ", name=" + name + ", todayAttendChk=" + todayAttendChk + ", c_s_date=" + c_s_date + ", c_e_date="
-				+ c_e_date + ", c_e_time=" + c_e_time + ", c_co_time=" + c_co_time + "]";
+				+ c_e_date + ", c_e_time=" + c_e_time + ", c_co_time=" + c_co_time + ", resultCode=" + resultCode
+				+ ", resultMsg=" + resultMsg + "]";
 	}
-	
-	
 }

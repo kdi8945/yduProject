@@ -254,4 +254,49 @@ public class Pre_C_Info_Controller {
 		List<Pre_C_Info> searchMyClass = pcis.searchMyClass(pre_C_Info);
 		return searchMyClass;
 	}
+	@RequestMapping("updateCstatus")
+	@ResponseBody
+	public Pre_C_Info updateCstatus(Pre_C_Info pre_C_Info) {
+		Pre_C_Info updateCstatus = pcis.updateCstatus(pre_C_Info);
+		return updateCstatus;
+	}
+	@RequestMapping("myApplyList")
+	public String myApplyList(HttpServletRequest request, Pre_C_Info pre_C_Info, String currentPage, Model model) {
+		String str = null;
+		HttpSession session = request.getSession();
+		try {
+			int autority = (int) session.getAttribute("sessionAutority");
+			
+			if(autority != 1) {
+				str="wrongPath";
+			} else {
+				if(StringUtil.isNullOrEmpty(pre_C_Info.getStu_id())) {
+					pre_C_Info.setStu_id((String)session.getAttribute("sessionId"));
+				}
+				int total = pcis.myApplyTot(pre_C_Info);
+				if(total == 0) {
+					model.addAttribute("total", total);
+				} else {
+					Paging page = new Paging(total, currentPage);
+					pre_C_Info.setStart(page.getStart());
+					pre_C_Info.setEnd(page.getEnd());
+					List<Pre_C_Info> myApplyList = pcis.myApplyList(pre_C_Info);
+					model.addAttribute("total", total);
+					model.addAttribute("myApplyList", myApplyList);
+					model.addAttribute("page", page);
+				}
+				str = "myApplyList";
+			}
+		}catch (Exception e) {
+			str= "sessionIsNull";
+		}
+		return str;
+	}
+	@RequestMapping("searchMyApplyClass")
+	@ResponseBody
+	public List<Pre_C_Info> searchMyApplyClass(Pre_C_Info pre_C_Info){
+		List<Pre_C_Info> searchMyApplyClass = pcis.searchMyApplyClass(pre_C_Info);
+		
+		return searchMyApplyClass;
+	}
 }

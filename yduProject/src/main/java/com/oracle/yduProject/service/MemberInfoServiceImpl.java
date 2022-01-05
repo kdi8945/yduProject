@@ -12,6 +12,7 @@ import com.oracle.yduProject.dao.MemberInfoDao;
 import com.oracle.yduProject.model.C_Name_List_RVO;
 import com.oracle.yduProject.model.C_Stu_Info;
 import com.oracle.yduProject.model.MemberInfo;
+import com.oracle.yduProject.model.Pre_C_Info;
 import com.oracle.yduProject.model.Terms;
 
 @Repository
@@ -112,6 +113,71 @@ public class MemberInfoServiceImpl implements MemberInfoService{
 	@Override
 	public List<MemberInfo> memberInfoList(MemberInfo memberInfo) {
 		return mid.memberInfoList(memberInfo);
+	}
+
+	@Override
+	public int widrawStudentTot(MemberInfo memberInfo) {
+		return mid.widrawStudentTot(memberInfo);
+	}
+
+	@Override
+	public List<Pre_C_Info> widrawStudentInfo(MemberInfo memberInfo) {
+		return mid.widrawStudentInfo(memberInfo);
+	}
+
+	@Override
+	public int professorTot(MemberInfo memberInfo) {
+		return mid.professorTot(memberInfo);
+	}
+
+	@Override
+	public List<Pre_C_Info> professorInfo(MemberInfo memberInfo) {
+		return mid.professorInfo(memberInfo);
+	}
+
+	@Override
+	public int studentInfoTot(MemberInfo memberInfo) {
+		return mid.studentInfoTot(memberInfo);
+	}
+
+	@Override
+	public List<Pre_C_Info> studentInfo(MemberInfo memberInfo) {
+		return mid.studentInfo(memberInfo);
+	}
+
+	@Override
+	public MemberInfo widrawPwChk(MemberInfo memberInfo) {
+		return mid.widrawPwChk(memberInfo);
+	}
+
+	@Override
+	public MemberInfo widrawStuResult(MemberInfo memberInfo) {
+		return mid.widrawStuResult(memberInfo);
+	}
+
+	@Override
+	public MemberInfo widrawProResult(MemberInfo memberInfo) {
+		return mid.widrawProResult(memberInfo);
+	}
+
+	@Override
+	public List<MemberInfo> selectView(MemberInfo memberInfo) {
+		return mid.selectView(memberInfo);
+	}
+
+	@Override
+	public List<MemberInfo> searchMember(MemberInfo memberInfo) {
+		return mid.searchMember(memberInfo);
+	}
+
+	@Override
+	public MemberInfo changeAutority(MemberInfo memberInfo) {
+		return mid.changeAutority(memberInfo);
+	}
+
+	@Override
+	public MemberInfo changeMemstatus(MemberInfo memberInfo) {
+		return mid.changeMemstatus(memberInfo);
 	}
 
 

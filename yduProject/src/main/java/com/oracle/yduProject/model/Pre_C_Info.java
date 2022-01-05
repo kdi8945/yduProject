@@ -38,6 +38,15 @@ public class Pre_C_Info {
 	private String searchContent;
 	private int resultCode;
 	
+	// 관리자페이지용
+	private int a_status;
+	private String id;
+	private String pro_name;
+	private String resultMsg;
+	
+	// 학생 마이페이지용
+	private String stu_id;
+
 	@Override
 	public String toString() {
 		return "Pre_C_Info [c_num=" + c_num + ", pro_id=" + pro_id + ", c_name=" + c_name + ", c_overview=" + c_overview
@@ -45,6 +54,8 @@ public class Pre_C_Info {
 				+ c_e_time + ", c_co_time=" + c_co_time + ", s_closed=" + s_closed + ", c_status=" + c_status
 				+ ", start=" + start + ", end=" + end + ", name=" + name + ", eHour=" + eHour + ", eMin=" + eMin
 				+ ", coHour=" + coHour + ", coMin=" + coMin + ", prof_rates=" + prof_rates + ", searchContent="
-				+ searchContent + ", resultCode=" + resultCode + "]";
+				+ searchContent + ", resultCode=" + resultCode + ", a_status=" + a_status + ", id=" + id + ", pro_name="
+				+ pro_name + ", resultMsg=" + resultMsg + ", stu_id=" + stu_id + "]";
 	}
+	
 }

@@ -42,9 +42,14 @@
             </a>
             <ul class="sub">
               <li><a href="memberInfo"><i class="fa fa-caret-right"></i>회원 관리</a></li>
-              <li><a href="#"><i class="fa fa-caret-right"></i>교수 수업 상태변경</a></li>
-              <li><a href="#"><i class="fa fa-caret-right"></i>학생 수강 상태변경</a></li>
             </ul>
+          </li>
+          <!-- 수업목록조회 페이지  -->
+          <li class="sub-menu">
+            <a href="classList">
+              <i class="fa fa-cogs"></i>
+              <span>수업 목록 조회</span>
+            </a>
           </li>
           <!-- 대나무숲 관리   -->
           <li class="bamboo">

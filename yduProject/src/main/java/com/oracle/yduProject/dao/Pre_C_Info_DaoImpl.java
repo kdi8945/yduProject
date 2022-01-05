@@ -352,11 +352,65 @@ public class Pre_C_Info_DaoImpl implements Pre_C_Info_Dao {
 				pre_C_Info.setResultCode(1);
 				searchMyClass.add(pre_C_Info);
 			}
-			return searchMyClass;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return searchMyClass;
 		}
+		return searchMyClass;
+	}
+
+
+	@Override
+	public Pre_C_Info updateCstatus(Pre_C_Info pre_C_Info) {
+		Pre_C_Info updateCstatus = new Pre_C_Info();
+		try {
+			int updateCstatusChk = session.update("updateCstatus", pre_C_Info);
+			if(updateCstatusChk > 0) {
+				updateCstatus.setResultMsg("수업상태가 정상적으로 변경되었습니다.");
+			} else {
+				updateCstatus.setResultCode(1);
+				updateCstatus.setResultMsg("데이터 처리에 오류가 발생하였습니다.");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return updateCstatus;
+	}
+
+
+	@Override
+	public int myApplyTot(Pre_C_Info pre_C_Info) {
+		int myApplyTot = -1;
+		try {
+			myApplyTot = session.selectOne("myApplyTot", pre_C_Info);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return myApplyTot;
+	}
+
+
+	@Override
+	public List<Pre_C_Info> myApplyList(Pre_C_Info pre_C_Info) {
+		List<Pre_C_Info> myApplyList = new ArrayList<Pre_C_Info>();
+		try {
+			myApplyList = session.selectList("myApplyList", pre_C_Info);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return myApplyList;
+	}
+
+
+	@Override
+	public List<Pre_C_Info> searchMyApplyClass(Pre_C_Info pre_C_Info) {
+		List<Pre_C_Info> searchMyApplyClass = new ArrayList<Pre_C_Info>();
+		System.out.println("pre_C_Info ::: "+pre_C_Info);
+		try {
+			searchMyApplyClass = session.selectList("searchMyApplyClass", pre_C_Info);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return searchMyApplyClass;
 	}
 
 }

@@ -20,8 +20,7 @@
 	</select>
 	<insert id="joinMember" parameterType="MemberInfo">
 		INSERT INTO MEMBERINFO(ID, PW, NAME, EMAIL, YDUCODE, AUTORITY, MEM_STATUS)
-		VALUES(#{id}, #{pw}, #{name}, #{email}, #{yducode}, #{autority}, 1)
-		<!-- 나중에 상태 2로 변경하고 관리자페이지에서 승인할수있게 수정해야함 -->
+		VALUES(#{id}, #{pw}, #{name}, #{email}, #{yducode}, #{autority}, 2)
 	</insert>
 	<insert id="joinTerms" parameterType="MemberInfo">
 		INSERT INTO T_C_HISTORY VALUES(#{id}, #{t_numArrs}, #{t_necessaryArrs})	
@@ -37,4 +36,249 @@
 		WHERE
 		RN BETWEEN #{start} AND #{end}
 	</select>
+	<select id="studentTot" parameterType="MemberInfo" resultType="int">
+		SELECT COUNT(1)
+		FROM PRE_C_INFO P
+		JOIN AL_STATUS A
+		ON P.C_NUM = A.C_NUM
+		JOIN MEMBERINFO M
+		ON A.STU_ID = M.ID
+		AND M.ID = #{id}
+		ORDER BY P.C_NUM DESC
+	</select>
+	<select id="studentCnumInfo" parameterType="MemberInfo" resultType="int">
+		SELECT P.C_NUM
+		FROM PRE_C_INFO P
+		JOIN AL_STATUS A
+		ON P.C_NUM = A.C_NUM
+		JOIN MEMBERINFO M
+		ON A.STU_ID = M.ID
+		AND M.ID = #{id}
+		ORDER BY P.C_NUM DESC
+	</select>
+	<select id="studentInfo" parameterType="MemberInfo" resultType="Pre_C_Info">
+		SELECT P.*, M.ID, A.A_STATUS, (SELECT M.NAME
+									   FROM MEMBERINFO M
+									   JOIN PRE_C_INFO P
+									   ON M.ID=P.PRO_ID
+									   WHERE C_NUM=#{c_num}) AS PRO_NAME
+		FROM PRE_C_INFO P
+		JOIN AL_STATUS A
+		ON P.C_NUM = A.C_NUM
+		JOIN MEMBERINFO M
+		ON A.STU_ID = M.ID
+		AND M.ID = #{id}
+		WHERE P.C_NUM = #{c_num}
+		ORDER BY P.C_NUM DESC
+	</select>
+	<select id="professorTot" parameterType="MemberInfo" resultType="int">
+		SELECT COUNT(1) FROM PRE_C_INFO WHERE PRO_ID=#{id} ORDER BY C_NUM DESC
+	</select>
+	<select id="professorInfo" parameterType="MemberInfo" resultType="Pre_C_Info">
+		SELECT * FROM PRE_C_INFO WHERE PRO_ID=#{id} ORDER BY C_NUM DESC
+	</select>
+	<select id="widrawPwChk" parameterType="MemberInfo" resultType="int">
+		SELECT COUNT(1) FROM MEMBERINFO WHERE ID=#{id} AND PW=#{pw}
+	</select>
+	<select id="myCstatusOneListChk" parameterType="MemberInfo" resultType="java.lang.Integer">
+		SELECT P.C_NUM
+		FROM PRE_C_INFO P
+		JOIN AL_STATUS A
+		ON P.C_NUM = A.C_NUM
+		AND A.STU_ID = #{id}
+		AND A.A_STATUS = 2
+		WHERE P.C_STATUS = 1
+	</select>
+	<select id="subChk" parameterType="MemberInfo" resultType="int">
+		SELECT COUNT(1) FROM C_STU_INFO WHERE STU_ID = #{id} AND C_NUM = #{c_num}
+	</select>
+	<delete id="myCStuInfoDelete2" parameterType="MemberInfo">
+		DELETE FROM C_STU_INFO WHERE STU_ID = #{id} AND C_NUM = #{c_num}
+	</delete>
+	<update id="myAStatus1Update" parameterType="MemberInfo">
+		UPDATE AL_STATUS SET A_STATUS = 1 WHERE STU_ID = #{id} AND C_NUM = #{c_num}
+	</update>
+	<select id="myCstatusTwoListChk" parameterType="MemberInfo" resultType="java.lang.Integer">
+		SELECT P.C_NUM
+		FROM PRE_C_INFO P
+		JOIN AL_STATUS A
+		ON P.C_NUM = A.C_NUM
+		AND A.STU_ID = #{id}
+		AND A.A_STATUS = 2
+		WHERE P.C_STATUS = 2
+	</select>
+	<update id="myAStatus3Update" parameterType="MemberInfo">
+		UPDATE AL_STATUS SET A_STATUS = 3 WHERE STU_ID = #{id} AND C_NUM = #{c_num}
+	</update>
+	<update id="widrawResult" parameterType="MemberInfo">
+		UPDATE MEMBERINFO SET MEM_STATUS = 3 WHERE ID = #{id}
+	</update>
+	<select id="myC2ClassChk" parameterType="MemberInfo" resultType="int">
+		SELECT COUNT(1) FROM PRE_C_INFO WHERE PRO_ID = #{id} AND C_STATUS = 2
+	</select>
+	<select id="myC1ClassChk" parameterType="MemberInfo" resultType="java.lang.Integer">
+		SELECT C_NUM FROM PRE_C_INFO WHERE PRO_ID = #{id} AND C_STATUS = 1
+	</select>
+	<select id="myC1CstuClassChk" parameterType="MemberInfo" resultType="int">
+		SELECT COUNT(1) FROM C_STU_INFO WHERE C_NUM = #{c_num}
+	</select>
+	<delete id="myC1CstuDelete" parameterType="MemberInfo">
+		DELETE FROM C_STU_INFO WHERE C_NUM = #{c_num}
+	</delete>
+	<select id="myC1ApplyChk" parameterType="MemberInfo" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM AL_STATUS WHERE C_NUM = #{c_num} AND A_STATUS = 2 
+	</select>
+	<update id="myC1ApplyUpdate" parameterType="MemberInfo">
+		UPDATE AL_STATUS SET A_STATUS = 1 WHERE C_NUM = #{c_num} AND A_STATUS = 2
+	</update>
+	<update id="myC1ClassUpdate" parameterType="MemberInfo">
+		UPDATE PRE_C_INFO SET C_STATUS = 4 WHERE C_NUM = #{c_num}
+	</update>
+	<select id="autorityListChk" parameterType="MemberInfo" resultType="int">
+		SELECT COUNT(1) FROM MEMBERINFO WHERE AUTORITY = #{autority}
+	</select>
+	<select id="getAutorityList" parameterType="MemberInfo" resultType="MemberInfo">
+		SELECT * FROM MEMBERINFO WHERE AUTORITY = #{autority}
+	</select>
+	<select id="memStatusListChk" parameterType="MemberInfo" resultType="int">
+		SELECT COUNT(1) FROM MEMBERINFO WHERE MEM_STATUS = #{mem_status}
+	</select>
+	<select id="getMemStatusList" parameterType="MemberInfo" resultType="MemberInfo">
+		SELECT * FROM MEMBERINFO WHERE MEM_STATUS = #{mem_status}
+	</select>
+	<select id="searchMember" parameterType="MemberInfo" resultType="MemberInfo">
+		SELECT ID, NAME, YDUCODE, AUTORITY, MEM_STATUS
+		FROM MEMBERINFO
+		WHERE ID LIKE '%'||#{keyword}||'%'
+			OR NAME LIKE '%'||#{keyword}||'%'
+			OR YDUCODE LIKE '%'||#{keyword}||'%'
+	</select>
+	<select id="searchMs1Member" parameterType="MemberInfo" resultType="MemberInfo">
+		SELECT ID, NAME, YDUCODE, AUTORITY, MEM_STATUS
+		FROM MEMBERINFO
+		WHERE ID LIKE '%'||#{keyword}||'%'
+			OR NAME LIKE '%'||#{keyword}||'%'
+			OR YDUCODE LIKE '%'||#{keyword}||'%'
+			OR MEM_STATUS LIKE '%'||#{ms1Keyword}||'%'
+	</select>
+	<select id="searchMs2Member" parameterType="MemberInfo" resultType="MemberInfo">
+		SELECT ID, NAME, YDUCODE, AUTORITY, MEM_STATUS
+		FROM MEMBERINFO
+		WHERE ID LIKE '%'||#{keyword}||'%'
+			OR NAME LIKE '%'||#{keyword}||'%'
+			OR YDUCODE LIKE '%'||#{keyword}||'%'
+			OR MEM_STATUS LIKE '%'||#{ms2Keyword}||'%'
+	</select>
+	<select id="searchMs12Member" parameterType="MemberInfo" resultType="MemberInfo">
+		SELECT ID, NAME, YDUCODE, AUTORITY, MEM_STATUS
+		FROM MEMBERINFO
+		WHERE ID LIKE '%'||#{keyword}||'%'
+			OR NAME LIKE '%'||#{keyword}||'%'
+			OR YDUCODE LIKE '%'||#{keyword}||'%'
+			OR MEM_STATUS LIKE '%'||#{ms1Keyword}||'%'
+			OR MEM_STATUS LIKE '%'||#{ms2Keyword}||'%'
+	</select>
+	<select id="searchArMember" parameterType="MemberInfo" resultType="MemberInfo">
+		SELECT ID, NAME, YDUCODE, AUTORITY, MEM_STATUS
+		FROM MEMBERINFO
+		WHERE ID LIKE '%'||#{keyword}||'%'
+			OR NAME LIKE '%'||#{keyword}||'%'
+			OR YDUCODE LIKE '%'||#{keyword}||'%'
+			OR AUTORITY LIKE '%'||#{arKeyWord}||'%'
+	</select>
+	<select id="changeAutorityChk1" parameterType="MemberInfo" resultType="int">
+		SELECT COUNT(1)
+		FROM AL_STATUS A
+		JOIN PRE_C_INFO P
+		ON A.C_NUM = P.C_NUM
+		WHERE STU_ID = #{id}
+		AND ((A.A_STATUS = 2 AND P.C_STATUS = 1) OR (A.A_STATUS = 2 AND P.C_STATUS=2))
+	</select>
+	<select id="changeAutorityChk2" parameterType="MemberInfo" resultType="int">
+		SELECT COUNT(1)
+		FROM PRE_C_INFO
+		WHERE PRO_ID = #{id}
+		AND (C_STATUS = 1 OR C_STATUS = 2)
+	</select>
+	<update id="changeAutorityResult" parameterType="MemberInfo">
+		UPDATE MEMBERINFO SET AUTORITY = #{autority} WHERE ID = #{id}
+	</update>
+	<select id="c1a2Chk" parameterType="MemberInfo" resultType="int">
+		SELECT COUNT(1)
+		FROM C_STU_INFO C
+		JOIN AL_STATUS A
+		ON A.C_NUM = C.C_NUM
+		AND A.STU_ID = #{id}
+		AND A.A_STATUS = 2
+		JOIN PRE_C_INFO P
+		ON C.C_NUM = P.C_NUM
+		AND P.C_STATUS = 1
+		WHERE C.STU_ID = #{id}
+	</select>
+	<delete id="c1a2Delete" parameterType="MemberInfo">
+		DELETE FROM C_STU_INFO
+		WHERE C_NUM IN(SELECT C.C_NUM
+					   FROM C_STU_INFO C
+					   JOIN AL_STATUS A
+					   ON A.C_NUM = C.C_NUM
+					   AND A.STU_ID = #{id}
+					   AND A.A_STATUS = 2
+					   JOIN PRE_C_INFO P
+					   ON C.C_NUM = P.C_NUM
+					   AND P.C_STATUS = 1
+					   WHERE C.STU_ID = #{id})
+		AND STU_ID = #{id}
+	</delete>
+	<select id="c1a2ApplyChk" parameterType="MemberInfo" resultType="int">
+		SELECT COUNT(1)
+		FROM AL_STATUS A
+		JOIN PRE_C_INFO P
+		ON P.C_NUM = A.C_NUM
+		AND P.C_STATUS = 1
+		WHERE A.STU_ID = #{id}
+		AND A.A_STATUS = 2
+		ORDER BY P.C_NUM DESC
+	</select>
+	<update id="c1a2Update" parameterType="MemberInfo">
+		UPDATE AL_STATUS
+		SET A_STATUS = 1
+		WHERE C_NUM IN(SELECT A.C_NUM
+					   FROM AL_STATUS A
+					   JOIN PRE_C_INFO P
+					   ON P.C_NUM = A.C_NUM
+					   AND P.C_STATUS = 1
+					   WHERE A.STU_ID = #{id}
+					   AND A.A_STATUS = 2)
+		AND STU_ID = #{id}
+	</update>
+	<select id="c2a2Chk" parameterType="MemberInfo" resultType="int">
+		SELECT COUNT(1)
+		FROM AL_STATUS A
+		JOIN PRE_C_INFO P
+		ON P.C_NUM = A.C_NUM
+		AND P.C_STATUS = 2
+		WHERE A.STU_ID = #{id}
+		AND A.A_STATUS = 2
+	</select>
+	<update id="c2a2Update" parameterType="MemberInfo">
+		UPDATE AL_STATUS
+		SET A_STATUS = 3
+		WHERE C_NUM IN(SELECT A.C_NUM
+					   FROM AL_STATUS A
+					   JOIN PRE_C_INFO P
+					   ON P.C_NUM = A.C_NUM
+					   AND P.C_STATUS = 2
+					   WHERE A.STU_ID = #{id}
+					   AND A.A_STATUS = 2)
+		AND STU_ID = #{id}
+	</update>
+	<select id="myC2Chk" parameterType="MemberInfo" resultType="int">
+		SELECT COUNT(1) FROM PRE_C_INFO WHERE PRO_ID = #{id} AND C_STATUS = 2
+	</select>
+	<select id="myC1List" parameterType="MemberInfo" resultType="java.lang.Integer">
+		SELECT C_NUM FROM PRE_C_INFO WHERE PRO_ID = #{id} AND C_STATUS = 1
+	</select>
+	<update id="changeMemstatus" parameterType="MemberInfo">
+		UPDATE MEMBERINFO SET MEM_STATUS = #{mem_status} WHERE ID = #{id}
+	</update>
 </mapper>
